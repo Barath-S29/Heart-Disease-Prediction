@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    
+    <title>Prediction</title>
+
+</head>
+<body>
+    <nav>
+        <img src="../static/logo.png" class="logo" alt="logo">
+        <img src="../static/logo3.png" class="logo" alt="logo">
+        <ul>
+            <li>Home</li>
+            <li>Services</li>
+            <li>Appointments</li>
+            <li>About Us</li>
+        </ul>
+        <button class="nav-btn">Get Started <img src="../static/arrow-white.png" alt="arrow-white"></button>
+    </nav>
+
+    <div class="header">
+        <form action="/predict" method="post">
+            {% for label in labels %}
+                <label for="{{ label|lower|replace(' ', '_') }}">{{ label }}:</label>
+                {% if 'Age' in label %}
+                    <input type="number" id="{{ label|lower|replace(' ', '_') }}" name="{{ label|lower|replace(' ', '_') }}" required><br>
+                {% elif 'Oldpeak' in label %}
+                    <input type="number" step="0.01" id="{{ label|lower|replace(' ', '_') }}" name="{{ label|lower|replace(' ', '_') }}" required><br>
+                {% else %}
+                    <input type="text" id="{{ label|lower|replace(' ', '_') }}" name="{{ label|lower|replace(' ', '_') }}" required><br>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Predict</button>
+        </form>
+
+        <section class="results">
+            {% if result %}
+                <p>{{ result }}</p>
+            {% endif %}
+        </section>
+    </div>
+
+    <script>
+        let navbar = document.querySelector('nav');
+
+        window.onscroll = function(){
+            if(window.scrollY > 0){
+                navbar.style.background = '#eefff9';
+            }
+            else{
+                navbar.style.background = 'transparent';
+            }
+        }
+    </script>
+
+</body>
+</html>
